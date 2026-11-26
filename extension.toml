@@ -1,0 +1,24 @@
+id = "pptui"
+name = "PPTUI"
+version = "0.1.0"
+schema_version = 1
+authors = ["long <ab1234_1123@qq.com>"]
+description = "PPTUI deck format support with XSD schema validation."
+
+
+[[capabilities]]
+kind = "download_file"
+host = "github.com"
+path = ["**"]
+
+[grammars.xml]
+repository = "https://github.com/tree-sitter-grammars/tree-sitter-xml"
+rev = "5000ae8f22d11fbe93939b05c1e37cf21117162d"
+path = "xml"
+
+[language_servers.pptui-lemminx]
+name = "PPTUI Language Server"
+languages = ["PPTUI"]
+
+[language_servers.pptui-lemminx.language_ids]
+"PPTUI" = "xml"

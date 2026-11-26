@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified">
+
+  <xs:annotation>
+    <xs:documentation>
+      pptui deck schema.
+      Lengths: 12pt, 1in, 2.54cm, 25.4mm, 96px, 914400emu, 50%, Auto.
+      Colors: #RRGGBB, #RRGGBBAA, @accent1, $named, None.
+      Values are validated by the compiler, so they stay xs:string here to keep
+      matching case-insensitive.
+    </xs:documentation>
+  </xs:annotation>
+
+  <xs:attributeGroup name="size">
+    <xs:attribute name="Width" type="xs:string"/>
+    <xs:attribute name="Height" type="xs:string"/>
+    <xs:attribute name="MinWidth" type="xs:string"/>
+    <xs:attribute name="MaxWidth" type="xs:string"/>
+    <xs:attribute name="MinHeight" type="xs:string"/>
+    <xs:attribute name="MaxHeight" type="xs:string"/>
+  </xs:attributeGroup>
+
+  <xs:attributeGroup name="frame">
+    <xs:attributeGroup ref="size"/>
+    <xs:attribute name="Margin" type="xs:string"/>
+    <xs:attribute name="HorizontalAlignment" type="xs:string"/>
+    <xs:attribute name="VerticalAlignment" type="xs:string"/>
+    <xs:attribute name="Name" type="xs:string"/>
+  </xs:attributeGroup>
+
+  <xs:attributeGroup name="attached">
+    <xs:attribute name="Grid.Row" type="xs:string"/>
+    <xs:attribute name="Grid.Column" type="xs:string"/>
+    <xs:attribute name="Grid.RowSpan" type="xs:string"/>
+    <xs:attribute name="Grid.ColumnSpan" type="xs:string"/>
+    <xs:attribute name="Canvas.Left" type="xs:string"/>
+    <xs:attribute name="Canvas.Top" type="xs:string"/>
+    <xs:attribute name="DockPanel.Dock" type="xs:string"/>
+  </xs:attributeGroup>
+
+  <xs:attributeGroup name="padded">
+    <xs:attribute name="Padding" type="xs:string"/>
+  </xs:attributeGroup>
+
+  <xs:attributeGroup name="text">
+    <xs:attribute name="FontFamily" type="xs:string"/>
+    <xs:attribute name="EastAsianFontFamily" type="xs:string"/>
+    <xs:attribute name="FontSize" type="xs:string"/>
+    <xs:attribute name="FontWeight" type="xs:string"/>
+    <xs:attribute name="FontStyle" type="xs:string"/>
+    <xs:attribute name="Foreground" type="xs:string"/>
+    <xs:attribute name="TextAlignment" type="xs:string"/>
+    <xs:attribute name="TextWrapping" type="xs:string"/>
+    <xs:attribute name="AutoFit" type="xs:string"/>
+    <xs:attribute name="LineHeight" type="xs:string"/>
+    <xs:attribute name="LetterSpacing" type="xs:string"/>
+    <xs:attribute name="TextDecoration" type="xs:string"/>
+    <xs:attribute name="Style" type="xs:string"/>
+  </xs:attributeGroup>
+
+  <xs:attributeGroup name="textContent">
+    <xs:attribute name="Text" type="xs:string"/>
+  </xs:attributeGroup>
+
+  <xs:attributeGroup name="paint">
+    <xs:attribute name="Fill" type="xs:string"/>
+    <xs:attribute name="Stroke" type="xs:string"/>
+    <xs:attribute name="StrokeThickness" type="xs:string"/>
+  </xs:attributeGroup>
+
+  <xs:attributeGroup name="surface">
+    <xs:attribute name="Background" type="xs:string"/>
+    <xs:attribute name="BorderBrush" type="xs:string"/>
+    <xs:attribute name="BorderThickness" type="xs:string"/>
+  </xs:attributeGroup>
+
+  <xs:attributeGroup name="radius">
+    <xs:attribute name="RadiusX" type="xs:string"/>
+    <xs:attribute name="RadiusY" type="xs:string"/>
+  </xs:attributeGroup>
+
+  <xs:group name="Inlines">
+    <xs:choice>
+      <xs:element ref="Run"/>
+      <xs:element ref="LineBreak"/>
+    </xs:choice>
+  </xs:group>
+
+  <xs:group name="Visuals">
+    <xs:choice>
+      <xs:element ref="Canvas"/>
+      <xs:element ref="StackPanel"/>
+      <xs:element ref="Grid"/>
+      <xs:element ref="Border"/>
+      <xs:element ref="DockPanel"/>
+      <xs:element ref="TextBlock"/>
+      <xs:element ref="List"/>
+      <xs:element ref="Image"/>
+      <xs:element ref="Rectangle"/>
+      <xs:element ref="Ellipse"/>
+      <xs:element ref="RoundedRectangle"/>
+      <xs:element ref="Table"/>
+      <xs:element ref="Chart"/>
+    </xs:choice>
+  </xs:group>
+
+  <xs:element name="Deck">
+    <xs:annotation>
+      <xs:documentation>Root. Page size defaults to 16:9 (12192000 x 6858000 EMU).</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="Meta"/>
+        <xs:element ref="Theme"/>
+        <xs:element ref="Styles"/>
+        <xs:element ref="Slide"/>
+      </xs:choice>
+      <xs:attribute name="Width" type="xs:string"/>
+      <xs:attribute name="Height" type="xs:string"/>
+      <xs:attribute name="Template" type="xs:string"/>
+      <xs:attributeGroup ref="text"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Meta">
+    <xs:complexType>
+      <xs:attribute name="Title" type="xs:string"/>
+      <xs:attribute name="Author" type="xs:string"/>
+      <xs:attribute name="Subject" type="xs:string"/>
+      <xs:attribute name="Keywords" type="xs:string"/>
+      <xs:attribute name="Comments" type="xs:string"/>
+      <xs:attribute name="Category" type="xs:string"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Theme">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Color" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="MajorFont" type="xs:string"/>
+      <xs:attribute name="MajorEastAsianFont" type="xs:string"/>
+      <xs:attribute name="MinorFont" type="xs:string"/>
+      <xs:attribute name="MinorEastAsianFont" type="xs:string"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Styles">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="Style"/>
+        <xs:element ref="Color"/>
+      </xs:choice>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Style">
+    <xs:annotation>
+      <xs:documentation>Named style (Key) or implicit style for TargetType. Any property is allowed.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="Key" type="xs:string"/>
+      <xs:attribute name="TargetType" type="xs:string"/>
+      <xs:anyAttribute namespace="##any" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Color">
+    <xs:complexType>
+      <xs:attribute name="Key" type="xs:string" use="required"/>
+      <xs:attribute name="Value" type="xs:string" use="required"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Slide">
+    <xs:complexType>
+      <xs:group ref="Visuals" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:attribute name="Layout" type="xs:string"/>
+      <xs:attribute name="Background" type="xs:string"/>
+      <xs:attribute name="Notes" type="xs:string"/>
+      <xs:attribute name="Name" type="xs:string"/>
+      <xs:attributeGroup ref="text"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Canvas">
+    <xs:annotation>
+      <xs:documentation>Absolute positioning. Children use Canvas.Left / Canvas.Top.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:group ref="Visuals" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:attributeGroup ref="frame"/>
+      <xs:attributeGroup ref="attached"/>
+      <xs:attributeGroup ref="surface"/>
+      <xs:attributeGroup ref="text"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="StackPanel">
+    <xs:complexType>
+      <xs:group ref="Visuals" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:attributeGroup ref="frame"/>
+      <xs:attributeGroup ref="attached"/>
+      <xs:attributeGroup ref="surface"/>
+      <xs:attributeGroup ref="text"/>
+      <xs:attribute name="Orientation" type="xs:string"/>
+      <xs:attribute name="Spacing" type="xs:string"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Grid">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="Grid.RowDefinitions"/>
+        <xs:element ref="Grid.ColumnDefinitions"/>
+        <xs:group ref="Visuals" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:choice>
+      <xs:attributeGroup ref="frame"/>
+      <xs:attributeGroup ref="attached"/>
+      <xs:attributeGroup ref="surface"/>
+      <xs:attributeGroup ref="text"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Grid.RowDefinitions">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="RowDefinition" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Grid.ColumnDefinitions">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="ColumnDefinition" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="RowDefinition">
+    <xs:complexType>
+      <xs:attribute name="Height" type="xs:string"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="ColumnDefinition">
+    <xs:complexType>
+      <xs:attribute name="Width" type="xs:string"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Border">
+    <xs:complexType>
+      <xs:group ref="Visuals" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:attributeGroup ref="frame"/>
+      <xs:attributeGroup ref="attached"/>
+      <xs:attributeGroup ref="surface"/>
+      <xs:attributeGroup ref="padded"/>
+      <xs:attributeGroup ref="radius"/>
+      <xs:attributeGroup ref="text"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="DockPanel">
+    <xs:complexType>
+      <xs:group ref="Visuals" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:attributeGroup ref="frame"/>
+      <xs:attributeGroup ref="attached"/>
+      <xs:attributeGroup ref="surface"/>
+      <xs:attributeGroup ref="text"/>
+      <xs:attribute name="LastChildFill" type="xs:string"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="TextBlock">
+    <xs:annotation>
+      <xs:documentation>Text, optional Run children, Padding insets text like WPF TextBlock.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType mixed="true">
+      <xs:group ref="Inlines" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:attributeGroup ref="frame"/>
+      <xs:attributeGroup ref="attached"/>
+      <xs:attributeGroup ref="padded"/>
+      <xs:attributeGroup ref="text"/>
+      <xs:attributeGroup ref="textContent"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Run">
+    <xs:complexType mixed="true">
+      <xs:attributeGroup ref="text"/>
+      <xs:attributeGroup ref="textContent"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="LineBreak">
+    <xs:complexType/>
+  </xs:element>
+
+  <xs:element name="List">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Item" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="frame"/>
+      <xs:attributeGroup ref="attached"/>
+      <xs:attributeGroup ref="padded"/>
+      <xs:attributeGroup ref="text"/>
+      <xs:attribute name="Bullet" type="xs:string"/>
+      <xs:attribute name="Indent" type="xs:string"/>
+      <xs:attribute name="ItemSpacing" type="xs:string"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Item">
+    <xs:complexType mixed="true">
+      <xs:group ref="Inlines" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:attributeGroup ref="text"/>
+      <xs:attributeGroup ref="textContent"/>
+      <xs:attribute name="Level" type="xs:string"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Image">
+    <xs:complexType>
+      <xs:attributeGroup ref="frame"/>
+      <xs:attributeGroup ref="attached"/>
+      <xs:attribute name="Source" type="xs:string" use="required"/>
+      <xs:attribute name="Stretch" type="xs:string"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Rectangle">
+    <xs:complexType>
+      <xs:attributeGroup ref="frame"/>
+      <xs:attributeGroup ref="attached"/>
+      <xs:attributeGroup ref="paint"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Ellipse">
+    <xs:complexType>
+      <xs:attributeGroup ref="frame"/>
+      <xs:attributeGroup ref="attached"/>
+      <xs:attributeGroup ref="paint"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="RoundedRectangle">
+    <xs:complexType>
+      <xs:attributeGroup ref="frame"/>
+      <xs:attributeGroup ref="attached"/>
+      <xs:attributeGroup ref="paint"/>
+      <xs:attributeGroup ref="radius"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Table">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="Table.Columns"/>
+        <xs:element ref="Table.Rows"/>
+        <xs:element ref="Row"/>
+      </xs:choice>
+      <xs:attributeGroup ref="frame"/>
+      <xs:attributeGroup ref="attached"/>
+      <xs:attributeGroup ref="text"/>
+      <xs:attribute name="CellPadding" type="xs:string"/>
+      <xs:attribute name="BorderBrush" type="xs:string"/>
+      <xs:attribute name="BorderThickness" type="xs:string"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Table.Columns">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Column" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Table.Rows">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Row" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Column">
+    <xs:complexType>
+      <xs:attribute name="Width" type="xs:string"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Row">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Cell" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="Height" type="xs:string"/>
+      <xs:attributeGroup ref="text"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Cell">
+    <xs:complexType mixed="true">
+      <xs:group ref="Inlines" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:attributeGroup ref="text"/>
+      <xs:attributeGroup ref="textContent"/>
+      <xs:attribute name="Background" type="xs:string"/>
+      <xs:attribute name="ColSpan" type="xs:string"/>
+      <xs:attribute name="RowSpan" type="xs:string"/>
+      <xs:attribute name="VerticalAlignment" type="xs:string"/>
+      <xs:attribute name="BorderBrush" type="xs:string"/>
+      <xs:attribute name="BorderThickness" type="xs:string"/>
+      <xs:attribute name="Padding" type="xs:string"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Chart">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="Category"/>
+        <xs:element ref="Series"/>
+      </xs:choice>
+      <xs:attributeGroup ref="frame"/>
+      <xs:attributeGroup ref="attached"/>
+      <xs:attribute name="Type" type="xs:string"/>
+      <xs:attribute name="Title" type="xs:string"/>
+      <xs:attribute name="Legend" type="xs:string"/>
+      <xs:attribute name="FontSize" type="xs:string"/>
+      <xs:attribute name="DataLabels" type="xs:string"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Category">
+    <xs:complexType mixed="true"/>
+  </xs:element>
+
+  <xs:element name="Series">
+    <xs:complexType mixed="true">
+      <xs:attribute name="Name" type="xs:string"/>
+      <xs:attribute name="Color" type="xs:string"/>
+      <xs:attribute name="Values" type="xs:string"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
