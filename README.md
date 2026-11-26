@@ -1,5 +1,7 @@
 # PPTUI for Zed
 
+<img src="logo.svg" alt="PPTUI logo" width="112" height="112" />
+
 给 `.pptui` 幻灯片格式用的 Zed 扩展：语法高亮、缩进、大纲，加上**内置 XSD 的默认 schema 校验与补全**（LemMinX）。
 
 ## 功能
